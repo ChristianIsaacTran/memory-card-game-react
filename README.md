@@ -1,16 +1,21 @@
-# React + Vite
+# purpose of this repo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- this is right after learning about the 
+useEffect hook in react where we can use the 
+useEffect to manage and create side effects which are effects that happen outside of react's rendering (like API calls, DOM manipulation (like document.create()), event listeners, and anything that interacts with the outside world).
 
-Currently, two official plugins are available:
+- In this project we are creating a card memory game, keeping track of highest score and also getting images from an API (giphy or pokemon API, or any free API to get the images and text) which would require it to be inside a useEffect.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- From the last lesson, useEffects are made up of 3 parts: 
 
-## React Compiler
+useEffect(()=> {
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+//side effect goes here
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+//cleanup function is used to close the side effect
+
+
+
+//a second parameter, an array called the dependency array which controls when this useEffect activates based on if the variables inside the dependency array change at all.
+}, []);
