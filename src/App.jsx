@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import './styles/App.css'
-
+import MemoryGame from "./components/memoryGame.jsx"
 function App() {
 
   return (
     <main>
-      
+      <MemoryGame />
     </main>
   )
 }
