@@ -19,3 +19,17 @@ useEffect(()=> {
 
 //a second parameter, an array called the dependency array which controls when this useEffect activates based on if the variables inside the dependency array change at all.
 }, []);
+
+# potential components and structure idea
+
+- it looks like the memory game example has a couple of basic features it keeps track of: 
+    1. order of the cards
+    2. a main card container component in a grid layout
+    3. each card has it's own picture and descriptor (like a character name or something)
+    4. a current score and a highscore
+    5. title of the game
+    6. game directions and objectives
+    7. when you click a card, it shuffles the card's order within the grid randomly
+    8. when you click on a card, the only time it counts as a point
+    is if you dont click on a card more than once (this is a the rules that the example went with)
+    9. The score resets if the player fails and clicks the same card twice, resetting the game
