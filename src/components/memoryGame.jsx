@@ -1,6 +1,7 @@
 import Header from "./header.jsx";
 import ScoreBoard from "./scoreboard.jsx";
 import CardContainer from "./cardContainer.jsx";
+import "../styles/memoryGame.css";
 
 export default function MemoryGame() {
   return (

@@ -1,0 +1,16 @@
+.memory-game {
+  color: white;
+  text-shadow: 0px 0px 8px green;
+  padding: 20px;
+}
+
+.memory-game {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+}
