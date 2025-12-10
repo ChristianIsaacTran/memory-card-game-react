@@ -11,12 +11,16 @@ import testImage from "../assets/testImage.png";
     javascript brackets inside src={}
 */
 
-export default function Card() {
+/*
+  passed API information through props from cardContainer.jsx parent component to use 
+  in jsx of card.
+*/
+export default function Card({itemName, itemPictureSrc}) {
   return (
     <div className="card-hover-container">
-      <li>
-        <img className="test-image" src={testImage} alt="" />
-        <p>Something</p>
+      <li className="card"> 
+        <img className="test-image" src={itemPictureSrc} alt="" />
+        <p calssName="skin-name">{itemName}</p>
       </li>
     </div>
   );
