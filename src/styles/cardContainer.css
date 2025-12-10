@@ -5,3 +5,9 @@
   gap: 15px;
   justify-content: center;
 }
+
+@media (width <= 600px) and (width >= 500px) {
+  .card-container {
+    gap: 100px;
+  }
+}

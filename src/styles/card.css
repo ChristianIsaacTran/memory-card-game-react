@@ -8,8 +8,9 @@ li {
   background: linear-gradient(rgb(25, 38, 82), rgb(0, 60, 255));
   gap: 10px;
   box-shadow: 0px 0px 20px 0px rgb(5, 36, 13);
-transition: transform 0.1s, box-shadow 0.1s;
-text-shadow: 0px 0px 8px black;
+  text-shadow: 0px 0px 8px black;
+  transition: transform 0.1s, box-shadow 0.1s;
+  min-height: 100%
 }
 
 img {
@@ -19,7 +20,7 @@ img {
   border-radius: 10px;
 }
 
-li:hover {
+.card-hover-container:hover > li {
   transform: translateY(-10px);
   box-shadow: 0px 0px 20px 0px rgb(238, 255, 0);
 }

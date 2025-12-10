@@ -13,9 +13,13 @@ import testImage from "../assets/testImage.png";
 
 export default function Card() {
   return (
-    <li>
-      <img className="test-image" src={testImage} alt="" />
-      <p>Something</p>
-    </li>
+    <div className="card-hover-container">
+      <li>
+        <img className="test-image" src={testImage} alt="" />
+        <p>Something</p>
+      </li>
+    </div>
   );
 }
+
+// note to self: fix the jitter on :hover pseudo class animation
