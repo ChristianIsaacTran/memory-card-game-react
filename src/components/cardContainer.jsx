@@ -153,10 +153,11 @@ export default function CardContainer({ updateScore }) {
       // use fisher yates shuffle algorithm to swap data positions within the array
       for (let i = tempArr.length - 1; i > 0; i = i - 1) {
         // generate random index, then swap position with current "end" of the array
-        let randomIndex = Math.floor(Math.random()) * (i + 1);
+        let randomIndex = Math.floor(Math.random() * (i + 1));
         let tempObj = tempArr[i];
         tempArr[i] = tempArr[randomIndex];
         tempArr[randomIndex] = tempObj;
+        
       }
 
       // once shuffling is done, trigger re-render. makeCards() should re-render with the new order
