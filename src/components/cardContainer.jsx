@@ -1,7 +1,8 @@
 import Card from "./card.jsx";
 import "../styles/cardContainer.css";
 import { useState, useEffect } from "react";
-export default function CardContainer() {
+
+export default function CardContainer({ updateScore }) {
   //useState to hold API data. each object inside the useState is going to have a name and a src image link.
   const [fortniteData, setFortniteData] = useState([]);
 
@@ -10,6 +11,8 @@ export default function CardContainer() {
     const tempObj = {
       name: inputJSON.data.name,
       imageSrc: inputJSON.data.images.smallIcon,
+      clickedOn: false,
+      uniqueID: crypto.randomUUID(),
     };
 
     return tempObj;
@@ -20,6 +23,8 @@ export default function CardContainer() {
     const tempObj = {
       name: `President ${inputJSON.data.name}`,
       imageSrc: inputJSON.data.variants["0"].options["1"].image,
+      clickedOn: false,
+      uniqueID: crypto.randomUUID(),
     };
 
     return tempObj;
@@ -63,7 +68,6 @@ export default function CardContainer() {
         const peelyData = await fetchRequestFunc(
           "CID_349_Athena_Commando_M_Banana"
         );
-        console.log(peelyData);
 
         const presidentBlankaData = await fetchRequestFunc(
           "CID_A_384_Athena_Commando_M_Rumble",
@@ -126,7 +130,8 @@ export default function CardContainer() {
         <Card
           itemName={gameCharacter.name}
           itemPictureSrc={gameCharacter.imageSrc}
-          key={crypto.randomUUID()}
+          key={gameCharacter.uniqueID}
+          clickHandler={cardClickHandler}
         />
       );
     });
@@ -134,13 +139,96 @@ export default function CardContainer() {
     return tempArr;
   };
 
+  // utility: used to shuffle the order of the cards in the unordered list around when the user scores a point
+  const cardShuffle = () => {
+    /*
+      reworked setFortniteData() call to use previousFortniteData in the callback to 
+      keep up to date with updated calls. Without previousFortniteData, the cardShuffle() would 
+      use non-updated data on the current render, and would copy non-updated data to the tempArr.
+    */
+    setFortniteData((previousFortniteData) => {
+      // copy fortniteData into a tempArray
+      const tempArr = [...previousFortniteData];
+
+      // use fisher yates shuffle algorithm to swap data positions within the array
+      for (let i = tempArr.length - 1; i > 0; i = i - 1) {
+        // generate random index, then swap position with current "end" of the array
+        let randomIndex = Math.floor(Math.random()) * (i + 1);
+
+        let tempObj = tempArr[i];
+
+        tempArr[i] = tempArr[randomIndex];
+        tempArr[randomIndex] = tempObj;
+      }
+
+      // once shuffling is done, trigger re-render. makeCards() should re-render with the new order
+      return tempArr;
+    });
+  };
+
+  /*
+  handler: when the user clicks on a character card, it triggers this handler which checks to see if the 
+  character's object data inside of fortniteData (useState) has an property of clickOn, which is a boolean
+
+  clickedOn = an object property that marks if the character has already been clicked or not
+
+  if a card has already been clicked on, set the score to 0 and reset all clickedOn properties
+
+  if a card has NOT been clicked on, use updateScore to tell the upper useState "score" that the user has successfully
+  scored a point 
+  */
+  const cardClickHandler = (itemName) => {
+    // find current card data inside of fortniteData and check if clickedOn boolean
+    const foundData = fortniteData.find(
+      (fortniteCharacter) => fortniteCharacter.name === itemName
+    );
+
+    // if the card HASN'T been clicked before, add 1 to score and update clicked character data's clickedOn boolean to true and shuffle cards in list
+    if (foundData.clickedOn === false) {
+      // add score by 1, make sure to use previousScore in the setState callback to use previous render's score
+      updateScore((previousScore) => {
+        return { ...previousScore, score: previousScore.score + 1 };
+      });
+
+      // update the current card's clickedOn property, then update the previousFortniteData with the new updated fortniteData (but with the changed clickedOn boolean)
+      setFortniteData((previousFortniteData) => {
+        return previousFortniteData.map((fortniteCharacter) => {
+          if (fortniteCharacter.name === itemName) {
+            return { ...fortniteCharacter, clickedOn: true };
+          }
+          return fortniteCharacter;
+        });
+      });
+
+      // trigger a card shuffle upon successful point
+      cardShuffle();
+
+      // if the card HAS been clicked on before, reset score to 0 and re-update all clickedOn to false
+    } else if (foundData.clickedOn === true) {
+      // reset score upon lose, and check to see if score is greater than highscore, overwrite if true
+      updateScore((previousScore) => {
+        if (previousScore.score > previousScore.highScore) {
+          return { score: 0, highScore: previousScore.score };
+        }
+
+        return { ...previousScore, score: 0 };
+      });
+
+      // reset fortniteData upon lose, turn all of the clickedOn boolean to false
+      setFortniteData((previousFortniteData) => {
+        return previousFortniteData.map((fortniteCharacter) => {
+          return { ...fortniteCharacter, clickedOn: false };
+        });
+      });
+    }
+  };
+
   // default loading render if fortniteData has no api data yet
-  if(fortniteData.length === 0) {
-    return (<h1>Loading fortnite API...</h1>);
+  if (fortniteData.length === 0) {
+    return <h1>Loading fortnite API...</h1>;
   }
 
-
-  // data loaded render if fortniteData obtained api data
+  // data loaded render if fortniteData obtained api data. INITIAL LOAD
   return (
     <ul className="card-container">
       {/* make a bunch of grid card components here */ makeCards()}
