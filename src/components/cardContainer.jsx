@@ -154,9 +154,7 @@ export default function CardContainer({ updateScore }) {
       for (let i = tempArr.length - 1; i > 0; i = i - 1) {
         // generate random index, then swap position with current "end" of the array
         let randomIndex = Math.floor(Math.random()) * (i + 1);
-
         let tempObj = tempArr[i];
-
         tempArr[i] = tempArr[randomIndex];
         tempArr[randomIndex] = tempObj;
       }
