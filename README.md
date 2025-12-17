@@ -33,3 +33,8 @@ useEffect(()=> {
     8. when you click on a card, the only time it counts as a point
     is if you dont click on a card more than once (this is a the rules that the example went with)
     9. The score resets if the player fails and clicks the same card twice, resetting the game
+ 
+
+# host is netlify, has automatic publish on push
+
+https://memory-fortnite-react.netlify.app
